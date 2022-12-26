@@ -1,0 +1,94 @@
+:root{
+     --marg: 30px;
+     --min: 700px;
+}
+
+html{
+     background-image: url("galBack.jfif");
+     background-repeat: no-repeat;
+     background-position: center;
+     background-size: cover;
+     background-attachment: fixed;
+     font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body{
+     margin-left: var(--marg);
+     margin-right: var(--marg)
+}
+
+ul{
+     list-style-type: none;
+     padding: 0px;
+     margin: 0px;
+     overflow: hidden;
+     background-color: bisque;
+}
+li a{
+     float: left;
+     display: block;
+     color: black;
+     padding: 10px 15px;
+     text-align: center;
+     text-decoration: none;
+     border-right: 1px solid purple;
+     min-width: 60px;
+}
+
+li a:hover{
+     background-color: tan;
+}
+
+#chosen{
+     background-color: tan;
+}
+
+.flexbox-container{
+     background-color: tan;
+     display: flex;
+     flex-direction: column;
+     flex-wrap: wrap;
+     min-width: var(--min);
+}
+
+.flexbox-item{
+     width:fit-content;
+}
+
+.flexbox-item-1{
+     margin-bottom: 5px;
+     margin-top: 5px;
+     margin-left: 5px;
+}
+
+img{
+     width: 95%;
+     margin-left: 2.5%;
+     margin-right: 2.5%;
+}
+
+.flexbox-container-i{
+     background-color: tan;
+     display: flex;
+     flex-direction: column;
+     flex-wrap: wrap;
+}
+
+.flexbox-item-i{
+     margin-left: 5px;
+}
+
+#name{
+     animation: myColorAnimation;
+     animation-duration: 10s;
+     animation-iteration-count: infinite;
+}
+
+@keyframes myColorAnimation{
+     0%{color: red;}
+     20%{color: orange;}
+     40%{color: yellow;}
+     60%{color: green;}
+     80%{color: blue;}
+     100%{color: purple;}
+}
