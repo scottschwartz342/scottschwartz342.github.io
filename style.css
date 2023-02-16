@@ -17,7 +17,7 @@ body{
      margin-right: var(--marg)
 }
 
-ul{
+#task{
      list-style-type: none;
      padding: 0px;
      margin: 0px;
@@ -77,6 +77,8 @@ img{
 .flexbox-item-i{
      margin-left: 5px;
 }
+
+
 
 #name{
      animation: myColorAnimation;
