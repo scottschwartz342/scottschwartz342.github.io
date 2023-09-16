@@ -2,6 +2,7 @@ body {
      background-color: rgb(10, 10, 10);
      color: green;
      font-family: "Lucida Console", "Courier New", monospace;
+     word-break: break-word;
 } 
 
 pre {
