@@ -2,7 +2,7 @@ body {
      background-color: rgb(10, 10, 10);
      color: green;
      font-family: "Lucida Console", "Courier New", monospace;
-}
+} 
 
 pre {
      display: flex;
@@ -43,9 +43,12 @@ a:hover {
 
 .outerFrame {
      display: flex;
+     flex-direction: column;
+     flex-wrap: wrap;;
      justify-content: center;
      align-items: center;
 }
+
 .frame {
      width: 80%;
      height: 80%;
@@ -61,4 +64,25 @@ h1 {
 
 h3 {
      color: yellow;;
+}
+
+ul {
+     list-style-type: none;
+     margin: 0;
+     padding: 0;
+}
+   
+li {
+     float: left;
+}
+
+.navLink {
+     border: 5px solid white;
+     padding: 8px;
+}
+
+.navLinkSelected {
+     border: 5px solid white;
+     padding: 8px;
+     color: red;;
 }
