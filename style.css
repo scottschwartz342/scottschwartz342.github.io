@@ -1,96 +1,63 @@
-:root{
-     --marg: 30px;
-     --min: 700px;
+body {
+     background-color: rgb(10, 10, 10);
+     color: green;
+     font-family: "Lucida Console", "Courier New", monospace;
 }
 
-html{
-     background-image: url("exFiles/galBack.png");
-     background-repeat: no-repeat;
-     background-position: center;
-     background-size: cover;
-     background-attachment: fixed;
-     font-family:Verdana, Geneva, Tahoma, sans-serif;
+pre {
+     display: flex;
+     justify-content: center; 
+     align-items: center; 
+     font-weight: bold;
 }
 
-body{
-     margin-left: var(--marg);
-     margin-right: var(--marg)
+#myName {
+     color: greenyellow;
+     font-weight: 100px;
+     font-weight: bold;;
+     font-size: 1vw
 }
 
-#task{
-     list-style-type: none;
-     padding: 0px;
-     margin: 0px;
-     overflow: hidden;
-     background-color: bisque;
+.homeLinks {
+  text-decoration: none; 
+  color: cyan;
+  font-size: 1vw;
 }
-li a{
-     float: left;
-     display: block;
-     color: black;
-     padding: 10px 15px;
-     text-align: center;
+
+.homeLinks:hover {
      text-decoration: none;
-     border-right: 1px solid purple;
-     min-width: 60px;
+     color: red;
 }
 
-li a:hover{
-     background-color: tan;
+a {
+     text-decoration: none; 
+     color: cyan;
 }
 
-#chosen{
-     background-color: tan;
+a:hover {
+     text-decoration: none;
+     color: red;
 }
 
-.flexbox-container{
-     background-color: tan;
+
+.outerFrame {
      display: flex;
-     flex-direction: column;
-     flex-wrap: wrap;
-     min-width: var(--min);
+     justify-content: center;
+     align-items: center;
+}
+.frame {
+     width: 80%;
+     height: 80%;
+     padding: 20px;
+     margin: 20px;
+     border: 10px solid red;
+     color: beige;
 }
 
-.flexbox-item{
-     width:fit-content;
+h1 {
+     color: blueviolet;
 }
 
-.flexbox-item-1{
-     margin-bottom: 5px;
-     margin-top: 5px;
-     margin-left: 5px;
-}
-
-img{
-     width: 95%;
-     margin-left: 2.5%;
-     margin-right: 2.5%;
-}
-
-.flexbox-container-i{
-     background-color: tan;
-     display: flex;
-     flex-direction: column;
-     flex-wrap: wrap;
-}
-
-.flexbox-item-i{
-     margin-left: 5px;
-}
-
-
-
-#name{
-     animation: myColorAnimation;
-     animation-duration: 10s;
-     animation-iteration-count: infinite;
-}
-
-@keyframes myColorAnimation{
-     0%{color: red;}
-     20%{color: orange;}
-     40%{color: yellow;}
-     60%{color: green;}
-     80%{color: blue;}
-     100%{color: purple;}
+h3 {
+     color: yellow;;
 }
