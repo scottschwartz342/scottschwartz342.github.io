@@ -11,17 +11,51 @@
      created by Scott Schwartz<br><br><br>
      
      <!-- inside the box  -->
-     <dev class="outerFrame">
+     <div class="outerFrame">
           <ul>
                <li><a class="navLink" href="index.html">Home</a></li>
                <li><a class="navLink"  href="info.html">Information</a></li>
                <li><a class="navLinkSelected"  href="projects.html">Projects</a></li>
                <li><a class="navLink" href="resume.html">Resume</a></li>
           </ul><br>
-          <dev class="frame">
+          <div class="frame">
                <h1>Projects:</h1>
-          </dev>
-     </dev>
+               <p>updated as of: 9/16/2023</p>
 
+               <h3>JavaScript Calculator</h3>
+               <a href="calc/cindex.html" target="_blank">Click here to open Calculator</a>
+
+               <h3>Intro to Operating System</h3>
+                    <div class="dropdown">
+                         <button onclick="dropAction(0)" class="dropbtn">Filesystem Simulator</button>
+                         <div id="dd0" class="dropdown-content">
+                              <p>hello0</p>
+                         </div>
+                    </div><br><br>
+                    <div class="dropdown">
+                         <button onclick="dropAction(1)" class="dropbtn">Virtual Memory Simulator</button>
+                         <div id="dd1" class="dropdown-content">
+                              <p>hello1</p>
+                         </div>
+                    </div><br><br>
+                    <div class="dropdown">
+                         <button onclick="dropAction(2)" class="dropbtn">Synchronization Museum</button>
+                         <div id="dd2" class="dropdown-content">
+                              <p>hello2</p>
+                         </div>
+                    </div><br><br>
+                    <div class="dropdown">
+                         <button onclick="dropAction(3)" class="dropbtn">Syscalls</button>
+                         <div id="dd3" class="dropdown-content">
+                              <p>hello3</p>
+                         </div>
+                    </div><br><br>
+          </div> 
+     </div>
+
+
+
+
+     <script src="Drop.js"></script>
 </body>
 </html>
