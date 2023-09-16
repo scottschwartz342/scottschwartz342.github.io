@@ -32,6 +32,7 @@ pre {
 a {
      text-decoration: none; 
      color: cyan;
+     overflow:scroll;
 }
 
 a:hover {
