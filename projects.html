@@ -20,7 +20,7 @@
           </ul><br>
           <div class="frame">
                <h1>Projects:</h1>
-               <p>updated as of: 9/16/2023</p>
+               <p>Updated as of: 9/16/2023<br>Does not include all school courses/projects</p>
 
                <h3>JavaScript Calculator</h3>
                <a href="calc/cindex.html" target="_blank">Click here to open Calculator</a>
@@ -29,32 +29,50 @@
                     <div class="dropdown">
                          <button onclick="dropAction(0)" class="dropbtn">Filesystem Simulator</button>
                          <div id="dd0" class="dropdown-content">
-                              <p>hello0</p>
+                              <p>
+                                   FUSE is a Linux kernel extension that allows for a userspace program to provide the implementations for the various file-related syscalls.
+                                   I used FUSE to create a custom filesystem, managed via a single file, .disk, that represented a disk device.
+                                   The filesystem was a two-level directory system.
+                                   <br><br>
+                                   Skills used: C, Reading/ Writing to Files, Memory Management, Indexing, Strings
+                              </p>
                          </div>
                     </div><br><br>
                     <div class="dropdown">
                          <button onclick="dropAction(1)" class="dropbtn">Virtual Memory Simulator</button>
                          <div id="dd1" class="dropdown-content">
-                              <p>hello1</p>
+                              <p>
+                                   I simulated the Least recently Used and Optimal replacement algorithms by reading tarces of memory references that were geenrated by 
+                                   two rpocesses while running on a 32-bit system.
+                                   <br><br>
+                                   Skills used: Java, Object Oriented Programming, Command-Line Argument Handling, File Handling/ Parsing, Algorithm Implementation, HashMaps, Linked Lists, Priority Queues
+                              </p>
                          </div>
                     </div><br><br>
                     <div class="dropdown">
                          <button onclick="dropAction(2)" class="dropbtn">Synchronization Museum</button>
                          <div id="dd2" class="dropdown-content">
-                              <p>hello2</p>
+                              <p>
+                                   To simulate a working museum, visitors and guides are modeled as threads that need to be synchronized in a way to meet the requirements of the project.
+                                   <br><br>
+                                   Skills used: C, Mutexes, Condition Variables, Readers-Writers Locks
+                              </p>
                          </div>
                     </div><br><br>
                     <div class="dropdown">
                          <button onclick="dropAction(3)" class="dropbtn">Syscalls</button>
                          <div id="dd3" class="dropdown-content">
-                              <p>hello3</p>
+                              <p>
+                                   I created a semaphore data type and implemented sempahore down() and up().
+                                   I added four new System Calls to create and operate on semaphores. 
+                                   cs1550_create, cs1550_down, cs1550_up, cs1550_close
+                                   <br><br>
+                                   Skills used: C, Queues, Spinlocks 
+                              </p>
                          </div>
                     </div><br><br>
           </div> 
      </div>
-
-
-
 
      <script src="Drop.js"></script>
 </body>
