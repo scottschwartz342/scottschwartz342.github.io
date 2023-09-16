@@ -67,8 +67,9 @@ h3 {
 }
 
 ul {
-     display: flex;
-     flex-wrap: nowrap;
+     float: left;
+     display: block;
+     
      list-style-type: none;
      margin: 0;
      padding: 0;
