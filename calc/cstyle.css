@@ -1,10 +1,10 @@
 body      {
-          background-image: url("https://i.pinimg.com/originals/3d/d7/98/3dd79870228d67529fea69d679c05318.jpg");
-
+          background-image: url("background.jpg");
           background-repeat: no-repeat; 
           background-attachment: fixed;
           background-position: center;
           background-size: cover;
+          background-color: purple;
 }
 .calc     {
      border: solid;
