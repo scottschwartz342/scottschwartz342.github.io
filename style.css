@@ -10,10 +10,11 @@ pre {
      justify-content: center; 
      align-items: center; 
      font-weight: bold;
+     text-align: center;
 }
 
 #myName {
-     color: greenyellow;
+     color: yellow;
      font-weight: 100px;
      font-weight: bold;;
      font-size: 1vw
@@ -21,7 +22,7 @@ pre {
 
 .homeLinks {
   text-decoration: none; 
-  color: cyan;
+  color: beige;
   font-size: 1vw;
 }
 

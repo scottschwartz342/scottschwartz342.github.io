@@ -22,7 +22,7 @@ s=0;s<6.28;s+=          .02){const v=Math
           ("")},50); /* JS by 
               @housamz */
 
-pre.style.color = "hotpink";
+pre.style.color = "blueviolet";
 
 // Inspired by
 // https://www.a1k0n.net/2011/07/20/donut-math.html
