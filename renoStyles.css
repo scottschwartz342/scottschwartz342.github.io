@@ -5,20 +5,21 @@ body {
 }
 .container {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 1fr 4fr;
   grid-template-rows: 3fr 1fr;
   height: 100vh;
 }
 .item {
   color: beige;
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+/* Section 1 */
 /* bar1 */
-.containerBar1 {
+.containerB1 {
   height: 100%;
   width: 100%;
 
@@ -32,7 +33,7 @@ body {
   margin: 1em;
 }
 
-.bar1 li {
+.bar1 li a {
   width: 10rem;
   height: 10rem;
 
@@ -40,6 +41,24 @@ body {
   justify-content: center;
   align-items: center;
 
-  border: 0.5em solid red;
+  text-decoration: none;
+  color: aqua;
+  font-size: 2rem;
+
+  border: 0.5rem solid red;
   border-radius: 50%;
+}
+
+.bar1 li a:hover {
+  border: 0.5rem solid beige;
+  color: red;
+}
+
+/* Section 2 */
+.containerMain {
+  border: 0.5em solid red;
+  margin: 1em;
+
+  height: 90%;
+  width: 90%;
 }
