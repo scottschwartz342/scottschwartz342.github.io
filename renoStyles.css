@@ -1,6 +1,7 @@
 body {
   margin: 0;
   padding: 0;
+  background: black;
 }
 .container {
   display: grid;
@@ -9,6 +10,7 @@ body {
   height: 100vh;
 }
 .item {
+  color: beige;
   border: 1px solid blue;
   display: flex;
   justify-content: center;
@@ -16,7 +18,7 @@ body {
 }
 
 /* bar1 */
-.containerB1 {
+.containerBar1 {
   height: 100%;
   width: 100%;
 
@@ -26,16 +28,18 @@ body {
   flex-direction: column;
   justify-content: space-evenly;
   align-items: flex-end;
+
+  margin: 1em;
 }
 
 .bar1 li {
-  width: 5rem;
-  height: 5rem;
+  width: 10rem;
+  height: 10rem;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  border: 1px solid black;
+  border: 0.5em solid red;
   border-radius: 50%;
 }
