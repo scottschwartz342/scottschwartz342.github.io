@@ -2,6 +2,15 @@ body {
   margin: 0;
   padding: 0;
   background-color: black;
+  background-image: url("dogImage.jpg");
+
+  /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .container {
@@ -25,7 +34,12 @@ img {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  align-items: center;
+  align-items: flex-end;
+  margin-right: 3rem;
+}
+
+.bar li {
+  list-style: none;
 }
 
 .bar li a {
@@ -42,6 +56,8 @@ img {
 
   border: 0.5rem solid red;
   border-radius: 50%;
+
+  background-color: black;
 }
 
 .bar li a:hover {
@@ -51,5 +67,7 @@ img {
 
 .name {
   color: yellow;
-  font-size: 70%;
+  font-size: 1.5rem;
+  font-weight: 900;
+  text-shadow: 2px 2px black;
 }
