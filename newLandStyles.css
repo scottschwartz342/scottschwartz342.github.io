@@ -1,0 +1,55 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: black;
+}
+
+.container {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+
+img {
+  height: 100%;
+  width: auto;
+}
+
+.barContainer {
+  height: 100%;
+  width: 100%;
+
+  list-style: none;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.bar li a {
+  width: 10rem;
+  height: 10rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  text-decoration: none;
+  color: aqua;
+  font-size: 1.5rem;
+
+  border: 0.5rem solid red;
+  border-radius: 50%;
+}
+
+.bar li a:hover {
+  border: 0.5rem solid beige;
+  color: red;
+}
+
+.name {
+  color: yellow;
+  font-size: 70%;
+}
