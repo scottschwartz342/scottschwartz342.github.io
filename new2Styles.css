@@ -3,39 +3,55 @@ body {
   margin: 0;
   padding: 0;
 
-  background-color: black;
+  /* Set the background image */
+  background-image: url("dogImage.jpg");
+  /* Ensure the background covers the entire page */
+  background-size: cover;
+  /* Center the background image */
+  background-position: center;
+  /* Prevent the background from repeating */
+  background-repeat: no-repeat;
+  /* Fix the background so it doesn't scroll with the content */
+  background-attachment: fixed;
+
+  background-color: green;
 }
 
 .container {
   height: 100vh;
-
-  background-color: green;
   display: flex;
 }
 
 .section1,
 .section2 {
-  margin: 1rem;
+  margin: 1vw;
 }
 
 .section1 {
-  background-color: red;
+  /* background-color: red; */
   width: 70%;
 }
 
 .section2 {
-  background-color: blue;
+  /* background-color: blue; */
   width: 30%;
 }
 
 /* Sectoin 1 - Name */
+.nameContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
 @font-face {
   font-family: myFont;
   src: url(VCR_OSD_MONO_1.001.ttf);
 }
 .name {
+  display: inline;
   color: yellow;
-  font-size: 10rem;
+  font-size: 10vw;
   font-family: myFont;
   font-weight: 900;
   text-shadow: 5px 5px black;
@@ -48,7 +64,7 @@ body {
   justify-content: space-evenly;
   height: 100%;
 
-  background-color: yellow;
+  /* background-color: yellow; */
 }
 
 .nav > a:nth-child(odd) {
@@ -66,16 +82,45 @@ body {
   background-color: black;
   text-decoration: none;
   color: aqua;
-  font-size: 2rem;
+  font-size: 3vw;
 
-  width: 15rem;
-  height: 15rem;
+  width: 15vw;
+  height: 15vw;
 
-  border: 1rem solid red;
+  border: 1vw solid red;
   border-radius: 50%;
 }
 
 .nav a:hover {
-  border: 1rem solid beige;
+  border: 1.5vw solid beige;
   color: red;
+}
+
+/* Responsiveness */
+@media only screen and (max-width: 900px) {
+  .container {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-between;
+    /* background-color: green; */
+  }
+
+  .section1,
+  .section2 {
+    margin: 1vw;
+    width: auto;
+  }
+
+  .section1 {
+    height: 30%;
+    /* background-color: red; */
+  }
+
+  .section2 {
+    height: 60%;
+    /* background-color: blue; */
+  }
 }
