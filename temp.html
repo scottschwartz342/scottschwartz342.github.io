@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Vertical Nav with Alternating Alignment</title>
+    <style>
+      .nav {
+        display: flex;
+        flex-direction: column;
+        width: 200px;
+        border: 1px solid #ccc;
+        padding: 10px;
+      }
+
+      /* Odd children align to the right */
+      .nav > *:nth-child(odd) {
+        align-self: flex-end;
+        background-color: #e0f7fa;
+        padding: 5px;
+        margin-bottom: 5px;
+      }
+
+      /* Even children align to the left */
+      .nav > *:nth-child(even) {
+        align-self: flex-start;
+        background-color: #ffe0b2;
+        padding: 5px;
+        margin-bottom: 5px;
+      }
+
+      /* Styling links */
+      .nav a {
+        text-decoration: none;
+        color: #333;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="nav">
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">Services</a>
+      <a href="#">Contact</a>
+      <a href="#">Blog</a>
+    </nav>
+  </body>
+</html>

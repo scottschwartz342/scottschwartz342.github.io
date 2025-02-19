@@ -1,0 +1,53 @@
+/* Main Sectioning via Flex */
+body {
+  margin: 0;
+  padding: 0;
+
+  background-color: black;
+}
+
+.container {
+  height: 100vh;
+
+  background-color: green;
+  display: flex;
+}
+
+.section1 {
+  background-color: red;
+  width: 70%;
+}
+
+.section2 {
+  background-color: blue;
+  width: 30%;
+}
+
+/* Sectoin 1 - Name */
+@font-face {
+  font-family: myFont;
+  src: url(VCR_OSD_MONO_1.001.ttf);
+}
+.name {
+  color: yellow;
+  font-size: 10rem;
+  font-family: myFont;
+  font-weight: 900;
+  text-shadow: 5px 5px black;
+}
+
+/* Section 2 - Nav Bar */
+.nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav > a:nth-child(odd) {
+  align-self: flex-start;
+}
+.nav > a:nth-child(even) {
+  align-self: flex-end;
+}
+
+.nav a {
+}
