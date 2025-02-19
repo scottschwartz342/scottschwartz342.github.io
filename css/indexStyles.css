@@ -46,7 +46,7 @@ body {
 .name {
   display: inline;
   color: yellow;
-  font-size: 10vw;
+  font-size: 10vmax;
   font-family: myFont;
   font-weight: 900;
   text-shadow: 5px 5px black;
