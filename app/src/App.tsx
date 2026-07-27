@@ -1,40 +1,37 @@
 import './App.css'
 import horse from './assets/horse.jpg'
 
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
+import { Col, ConfigProvider, Flex, Image, Row, Space, theme, Typography } from 'antd';
+import CustomCarousel from './components/CutomCarousel';
+
+const { Title } = Typography;
 
 const Name = () => (
-  <Stack direction="column" spacing={2}>
-    <Typography variant="h1">Scott</Typography>
-    <Typography variant="h1">Schwartz</Typography>
-  </Stack>
-);
-
-const Options = () => (
-  <Stack direction="column" style={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }} spacing={2}>
-    <Button variant="contained">
-      Contact Information / About Me
-    </Button>
-    <Button variant="contained">
-      Projects
-    </Button>
-    <Button variant="contained">
-      Resume
-    </Button>
-  </Stack>
+  <Flex vertical gap={16}>
+    <Title level={1}>Scott</Title>
+    <Title level={1}>Schwartz</Title>
+  </Flex>
 );
 
 const App = () => {
-  return ( 
-    <>
-      <Stack direction="row" style={{ height: '100vh', alignItems: 'center' }} spacing={2} >
-        <img className="horse-image" style={{ height: '100%' }} src={horse} alt="Horse" />
-        <Name /> 
-        <Options />
-      </Stack>  
-    </>
+  return (
+    <Row style={{ height: '100vh', width: '100vw' }}>
+      <Col style={{ border: '1px solid red'}}>
+        <Image
+          alt="basic"
+          src={horse}
+          height="100vh"
+          width="auto"
+          preview={false}
+        />
+      </Col>
+      <Col style={{ border: '1px solid red'}}>
+        <Name />
+      </Col>
+      <Col flex="auto" style={{ border: '1px solid red' }}>
+        <CustomCarousel />
+      </Col>
+    </Row>
   );
 }
 
