@@ -29,10 +29,10 @@ const App = () => {
           preview={false}
         />
       </Col>
-      <Col flex="none" style={{ border: '1px solid red'}} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: '16px', marginRight: '16px' }}>
+      <Col flex="none" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: '16px', marginRight: '16px', border: '1px solid red' }}>
         <Name />
       </Col>
-      <Col flex="auto" style={{ border: '1px solid red' }}>
+      <Col flex="auto" style={{ border: '1px solid green',  width:"10px" }}>
         <CustomCarousel />
       </Col>
     </Row>
