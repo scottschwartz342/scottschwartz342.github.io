@@ -16,6 +16,13 @@
   /* Shared by the nav buttons and the rule under the wordmark. The alignment
      between them is the point, so it can't be two numbers that happen to agree. */
   --nav-width: min(22rem, 80vw);
+
+  /* The interaction accent. Deliberately not antd's colorPrimary — that token is
+     blue, and the page reads as neutral now that the aurora carries no hue.
+     Light grey rather than a color, so the only saturated things on screen are
+     the ink and the links. */
+  --accent: rgba(255, 255, 255, 0.92);
+  --accent-border: rgba(255, 255, 255, 0.45);
 }
 
 /* The shader canvas. Fixed rather than absolute so it stays put while a panel
@@ -32,7 +39,7 @@
    both the moment before the first frame and hardware with no WebGL2 at all.
    Approximates the aurora's resting state, so neither case shows bare black. */
 .shaderBackground.isStatic {
-  background: radial-gradient(110% 65% at 50% 100%, #170c30 0%, #0c0620 40%, #000000 72%);
+  background: radial-gradient(110% 65% at 50% 100%, #1a1a1c 0%, #0e0e10 40%, #000000 72%);
 }
 
 .shaderCanvas {
@@ -175,12 +182,12 @@
   --ant-btn-bg-color-active: var(--glass-bg-active);
 
   --ant-btn-border-color: var(--ant-color-border-secondary, #303030);
-  --ant-btn-border-color-hover: var(--ant-color-primary, #1677ff);
-  --ant-btn-border-color-active: var(--ant-color-primary, #1677ff);
+  --ant-btn-border-color-hover: var(--accent-border);
+  --ant-btn-border-color-active: var(--accent-border);
 
   --ant-btn-text-color: var(--ant-color-text, rgba(255, 255, 255, 0.88));
-  --ant-btn-text-color-hover: var(--ant-color-primary, #1677ff);
-  --ant-btn-text-color-active: var(--ant-color-primary, #1677ff);
+  --ant-btn-text-color-hover: var(--accent);
+  --ant-btn-text-color-active: var(--accent);
 
   --ant-btn-shadow: none;
 

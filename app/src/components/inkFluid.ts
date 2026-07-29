@@ -215,9 +215,10 @@ vec3 aurora(vec2 uv, float t) {
        reading as the background color. */
     float glow = exp(-abs(band) * 10.0) * 0.26;
     glow *= 0.6 + 0.4 * fbm(vec2(uv.x * 18.0 + fi * 5.0, t * 0.15));
-    /* Both ends kept in the violet family. A cyan end read as a blue wash and
-       competed with the ink, which owns the saturated color here. */
-    vec3 tint = mix(vec3(0.22, 0.09, 0.30), vec3(0.12, 0.08, 0.20), fi * 0.5);
+    /* Both ends neutral grey. Any hue here reads as a colored wash over the
+       whole page and competes with the ink, which owns the saturated color —
+       so the glow carries brightness only and leaves hue to the dye. */
+    vec3 tint = mix(vec3(0.17, 0.17, 0.18), vec3(0.10, 0.10, 0.11), fi * 0.5);
     col += tint * glow;
   }
   return col * smoothstep(0.72, 0.02, uv.y);
