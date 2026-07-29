@@ -1,0 +1,197 @@
+/* Colors here read antd's own custom properties rather than pinning hex values,
+   so anything styled below follows whatever algorithm ConfigProvider is running
+   instead of drifting out of step with the components around it. The fallbacks
+   are the dark palette's values, used only if a token is ever renamed. */
+
+/* The glass treatment, defined once because the panels and the nav buttons have
+   to agree — the alpha is what lets the ink shader read through, and two
+   surfaces sitting at different alphas over the same moving background looks
+   like a mistake rather than a choice. Tune the effect here, not per-component. */
+:root {
+  --glass-bg: rgba(20, 20, 20, 0.72);
+  --glass-bg-hover: rgba(38, 38, 44, 0.78);
+  --glass-bg-active: rgba(48, 48, 56, 0.84);
+  --glass-blur: blur(16px);
+
+  /* Shared by the nav buttons and the rule under the wordmark. The alignment
+     between them is the point, so it can't be two numbers that happen to agree. */
+  --nav-width: min(22rem, 80vw);
+}
+
+/* The shader canvas. Fixed rather than absolute so it stays put while a panel
+   scrolls, and inert to pointer events so the carousel's wheel handling and the
+   panels' own scrolling still receive every gesture. */
+.shaderBackground {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Sits behind the canvas permanently rather than being swapped in, so it covers
+   both the moment before the first frame and hardware with no WebGL2 at all.
+   Approximates the aurora's resting state, so neither case shows bare black. */
+.shaderBackground.isStatic {
+  background: radial-gradient(110% 65% at 50% 100%, #170c30 0%, #0c0620 40%, #000000 72%);
+}
+
+.shaderCanvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Everything the app renders sits in its own stacking context above the canvas. */
+.appContent {
+  position: relative;
+  z-index: 1;
+}
+
+/* The dots' colour is fixed by the Carousel token override in main.tsx; this is
+   the half that can't be, because antd hardcodes the inactive track's opacity at
+   0.2 rather than exposing it. At 0.2 white reads as rgb(51,51,51) — enough
+   against a photo slide, nearly nothing against a near-black page.
+
+   The shadow is for the dots' position rather than their colour: they sit at the
+   far right edge, which is exactly where a bright stroke of ink tends to be, and
+   white-on-bright needs an edge to stay separate.
+
+   Doubled for specificity: antd writes `.ant-carousel .slick-dots li button` at
+   (0,2,2), so a single class would tie and lose. */
+.carouselRail.carouselRail .slick-dots li button {
+  opacity: 0.4;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+}
+
+.carouselRail.carouselRail .slick-dots li button:hover {
+  opacity: 0.85;
+}
+
+/* Links are lightened, because a translucent panel over a moving shader is a
+   harder background than antd's colorLink is built for. Its dark default
+   (#1668dc) reaches only 3.7:1 against the panel at rest — already under the
+   4.5:1 AA floor — and as bright ink passes behind, the backdrop lifts the panel
+   toward rgb(86,56,26) and the link collapses to about 2:1. Two steps up antd's
+   own blue ramp holds ~7.8:1 at rest and ~4.3:1 at the worst moment.
+
+   Set here rather than via the colorLink token because that token is a seed:
+   the dark algorithm re-derives it, so passing this hex yields a different,
+   darker colour. This is the only way to land on an exact value.
+
+   Doubled for specificity: antd writes a.ant-typography at (0,1,1), which a
+   plain `.panel a` merely ties and then loses to on injection order. */
+.panel.panel a {
+  color: #65a9f3;
+  text-decoration: none;
+}
+
+/* Underline on interaction only. The colour carries the resting state, but it
+   sits at 1.9:1 against the body text beside it, so hue alone is a weak signal
+   for anyone who doesn't separate those two blues — and a keyboard user needs
+   something that isn't a cursor position. Both are invisible until acted on, so
+   the resting look is unaffected. */
+.panel.panel a:hover,
+.panel.panel a:focus-visible {
+  color: #8dc5f8;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  /* Clears the descenders so the rule doesn't slice through g/p/y. */
+  text-underline-offset: 0.18em;
+}
+
+.panel.panel a:active {
+  color: #3c89e8;
+}
+
+/* The frame the Info / Projects / Resume slides sit in. Each one sets its own
+   overflow because the carousel checks for a scrollable ancestor under the
+   cursor before it will change slides — see scrollableUnderCursor in
+   CutomCarousel.tsx. */
+.panel {
+  width: min(52rem, 82vw);
+  max-height: 82vh;
+  overflow-y: auto;
+  padding: 32px 40px;
+
+  /* Translucent instead of antd's opaque colorBgContainer, which would hide the
+     shader entirely behind each panel. The alpha is high enough to keep body
+     text at full contrast; the blur stops moving colors from dragging the eye
+     through the text. */
+  background-color: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--ant-color-border-secondary, #303030);
+  border-radius: var(--ant-border-radius-lg, 8px);
+}
+
+/* The landing name, set to match the panel headings. Deliberately declares no
+   font properties at all — matching them means inheriting antd's h1 rather than
+   restating its size, weight and family here, which would then quietly drift
+   apart the first time a theme token changes.
+
+   Only two things differ from a panel heading, and both are because this one
+   sits on bare background instead of on glass: it's centered over the buttons,
+   and it carries a shadow so it stays legible when a bright stroke of ink
+   passes underneath. No panel behind it — a box would cut the background in
+   half at exactly the point the ink is most visible.
+
+   Doubled for specificity: antd's h1.ant-typography sets the margin at (0,1,1)
+   and would otherwise win. */
+.nameplate.nameplate {
+  margin: 0;
+  text-align: center;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.85);
+}
+
+/* Hairline tying the name to the button stack — same width, fading at both ends
+   so it reads as a seam rather than a border. */
+.nameplate.nameplate::after {
+  content: '';
+  display: block;
+  width: var(--nav-width);
+  height: 1px;
+  margin: 20px auto 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--ant-color-border-secondary, #303030) 25%,
+    var(--ant-color-border-secondary, #303030) 75%,
+    transparent
+  );
+}
+
+/* The same glass as the panels, but driven through antd's own --ant-btn-*
+   variables rather than by restyling .ant-btn directly. antd writes its states
+   as `.ant-btn:not(:disabled):not(.ant-btn-disabled):hover` (see
+   button/style/variant.js), which outranks any plain `.navButton:hover` — so
+   setting the variables lets antd's own rules produce these colors in every
+   state instead of fighting them.
+
+   The class is doubled purely for specificity: antd's per-variant rules
+   (`.ant-btn.ant-btn-variant-outlined`) set these same variables at (0,2,0), so
+   a single class would tie and lose on stylesheet order. */
+.navButton.navButton {
+  --ant-btn-bg-color: var(--glass-bg);
+  --ant-btn-bg-color-hover: var(--glass-bg-hover);
+  --ant-btn-bg-color-active: var(--glass-bg-active);
+
+  --ant-btn-border-color: var(--ant-color-border-secondary, #303030);
+  --ant-btn-border-color-hover: var(--ant-color-primary, #1677ff);
+  --ant-btn-border-color-active: var(--ant-color-primary, #1677ff);
+
+  --ant-btn-text-color: var(--ant-color-text, rgba(255, 255, 255, 0.88));
+  --ant-btn-text-color-hover: var(--ant-color-primary, #1677ff);
+  --ant-btn-text-color-active: var(--ant-color-primary, #1677ff);
+
+  --ant-btn-shadow: none;
+
+  /* backdrop-filter has no antd variable — it isn't a color, so it has to be
+     set on the element itself. It only does anything because the backgrounds
+     above are translucent. */
+  backdrop-filter: var(--glass-blur);
+
+  /* Fixed width so the three buttons stay identical rather than sizing to their
+     labels. */
+  width: var(--nav-width);
+  height: 3.25rem;
+  font-size: 1rem;
+}

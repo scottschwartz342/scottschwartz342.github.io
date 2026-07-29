@@ -1,0 +1,11 @@
+/* The dark algorithm in main.tsx restyles antd's own components but never
+   touches the page itself, so html/body would stay white behind them. These two
+   values are what darkAlgorithm derives everything else from: #000 as the base
+   background, rgba(255,255,255,0.88) as body text. Setting them here keeps any
+   plain markup that isn't an antd component in step with the theme. */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  background-color: #000000;
+  color: rgba(255, 255, 255, 0.88);
+}
