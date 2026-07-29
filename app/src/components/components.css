@@ -12,6 +12,10 @@
   --glass-bg-hover: rgba(38, 38, 44, 0.78);
   --glass-bg-active: rgba(48, 48, 56, 0.84);
   --glass-blur: blur(16px);
+
+  /* Shared by the nav buttons and the rule under the wordmark. The alignment
+     between them is the point, so it can't be two numbers that happen to agree. */
+  --nav-width: min(22rem, 80vw);
 }
 
 /* The shader canvas. Fixed rather than absolute so it stays put while a panel
@@ -63,6 +67,42 @@
   border-radius: var(--ant-border-radius-lg, 8px);
 }
 
+/* The landing name, set to match the panel headings. Deliberately declares no
+   font properties at all — matching them means inheriting antd's h1 rather than
+   restating its size, weight and family here, which would then quietly drift
+   apart the first time a theme token changes.
+
+   Only two things differ from a panel heading, and both are because this one
+   sits on bare background instead of on glass: it's centered over the buttons,
+   and it carries a shadow so it stays legible when a bright stroke of ink
+   passes underneath. No panel behind it — a box would cut the background in
+   half at exactly the point the ink is most visible.
+
+   Doubled for specificity: antd's h1.ant-typography sets the margin at (0,1,1)
+   and would otherwise win. */
+.nameplate.nameplate {
+  margin: 0;
+  text-align: center;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.85);
+}
+
+/* Hairline tying the name to the button stack — same width, fading at both ends
+   so it reads as a seam rather than a border. */
+.nameplate.nameplate::after {
+  content: '';
+  display: block;
+  width: var(--nav-width);
+  height: 1px;
+  margin: 20px auto 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--ant-color-border-secondary, #303030) 25%,
+    var(--ant-color-border-secondary, #303030) 75%,
+    transparent
+  );
+}
+
 /* The same glass as the panels, but driven through antd's own --ant-btn-*
    variables rather than by restyling .ant-btn directly. antd writes its states
    as `.ant-btn:not(:disabled):not(.ant-btn-disabled):hover` (see
@@ -95,7 +135,7 @@
 
   /* Fixed width so the three buttons stay identical rather than sizing to their
      labels. */
-  width: min(22rem, 80vw);
+  width: var(--nav-width);
   height: 3.25rem;
   font-size: 1rem;
 }

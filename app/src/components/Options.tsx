@@ -1,7 +1,9 @@
-import { Button, Flex } from 'antd';
+import { Button, Flex, Typography } from 'antd';
 
 import { Option } from './Option';
 import './components.css';
+
+const { Title } = Typography;
 
 type OptionsProps = {
   onNavigate: (target: Option) => void;
@@ -9,6 +11,7 @@ type OptionsProps = {
 
 const Options = ({ onNavigate }: OptionsProps) => (
   <Flex vertical gap={16} style={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <Title className="nameplate">Scott Schwartz</Title>
     <Button className="navButton" size="large" onClick={() => onNavigate(Option.Info)}>
       Contact Information / About Me
     </Button>
