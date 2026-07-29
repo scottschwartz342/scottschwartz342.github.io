@@ -1,6 +1,6 @@
 import { Collapse, Flex, Typography } from 'antd';
 
-import './retro.css';
+import './components.css';
 
 const { Title, Paragraph, Link } = Typography;
 
@@ -122,7 +122,7 @@ const operatingSystems = [
 ];
 
 const Projects = () => (
-  <Flex vertical gap={16} className="retroFrame" style={{ maxWidth: '48em', overflowY: 'auto', maxHeight: '80vh' }}>
+  <Flex vertical gap={16} className="panel">
     <Title level={1} style={flush}>Projects:</Title>
     <Paragraph style={flush}>
       Updated as of: 5/11/2025

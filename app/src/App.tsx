@@ -29,9 +29,9 @@ const App = () => {
           preview={false}
         />
       </Col>
-      <Col flex="none" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: '16px', marginRight: '16px' }}>
+      {/* <Col flex="none" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: '16px', marginRight: '16px' }}>
         <Name />
-      </Col>
+      </Col> */}
       <Col flex="auto" style={{ width:"10px" }}>
         <CustomCarousel />
       </Col>

@@ -1,7 +1,7 @@
 import { Button, Flex } from 'antd';
 
 import { Option } from './Option';
-import './retro.css';
+import './components.css';
 
 type OptionsProps = {
   onNavigate: (target: Option) => void;
@@ -9,13 +9,13 @@ type OptionsProps = {
 
 const Options = ({ onNavigate }: OptionsProps) => (
   <Flex vertical gap={16} style={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}>
-    <Button className="retroNavButton" onClick={() => onNavigate(Option.Info)}>
+    <Button className="navButton" size="large" onClick={() => onNavigate(Option.Info)}>
       Contact Information / About Me
     </Button>
-    <Button className="retroNavButton" onClick={() => onNavigate(Option.Projects)}>
+    <Button className="navButton" size="large" onClick={() => onNavigate(Option.Projects)}>
       Projects
     </Button>
-    <Button className="retroNavButton" onClick={() => onNavigate(Option.Resume)}>
+    <Button className="navButton" size="large" onClick={() => onNavigate(Option.Resume)}>
       Resume
     </Button>
   </Flex>

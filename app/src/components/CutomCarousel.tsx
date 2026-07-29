@@ -97,7 +97,6 @@ const CustomCarousel = () => {
       alignItems: 'center',
       justifyContent: 'center',
       height: '100vh',
-      color: '#ffffff',
     };
 
     return (

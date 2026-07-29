@@ -1,13 +1,13 @@
 import { Flex, Typography } from 'antd';
 
-import './retro.css';
+import './components.css';
 
 const { Title, Paragraph, Text, Link } = Typography;
 
 const flush: React.CSSProperties = { margin: 0 };
 
 const Info = () => (
-  <Flex vertical gap={16} className="retroFrame" style={{ maxWidth: '48em', overflowY: 'auto', maxHeight: '80vh' }}>
+  <Flex vertical gap={16} className="panel">
     <Title level={1} style={flush}>Information:</Title>
 
     <Title level={3} style={flush}>Contact Info:</Title>
