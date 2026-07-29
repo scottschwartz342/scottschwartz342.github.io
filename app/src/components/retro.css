@@ -1,0 +1,138 @@
+/* Ported from the old site's css/styles.css.
+   Everything is scoped under .retroFrame so the bare element selectors the
+   original used (a, h1, h3, ul, li) cannot leak into antd's own markup. */
+
+.retroFrame {
+  width: 80%;
+  padding: 20px;
+  border: 10px solid red;
+  background-color: rgb(10, 10, 10);
+  color: green;
+  font-family: "Lucida Console", "Courier New", monospace;
+  word-break: break-word;
+}
+
+.retroFrame .ant-typography {
+  color: beige;
+  font-family: inherit;
+}
+
+.retroFrame h1.ant-typography {
+  color: blueviolet;
+}
+
+.retroFrame h3.ant-typography {
+  color: yellow;
+}
+
+.retroFrame a,
+.retroFrame a.ant-typography,
+.retroFrame .ant-typography a {
+  color: cyan;
+  text-decoration: none;
+}
+
+.retroFrame a:hover,
+.retroFrame a.ant-typography:hover,
+.retroFrame .ant-typography a:hover {
+  color: red;
+  text-decoration: none;
+}
+
+/* The old dropdown buttons are antd Collapse panels now, restyled to match:
+   purple header, blue on hover/focus, beige body. */
+.retroFrame .ant-collapse {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  font-family: inherit;
+}
+
+.retroFrame .ant-collapse > .ant-collapse-item {
+  border: none;
+}
+
+.retroFrame .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+  background-color: purple;
+  color: beige;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 0;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.retroFrame .ant-collapse > .ant-collapse-item > .ant-collapse-header:hover,
+.retroFrame .ant-collapse > .ant-collapse-item > .ant-collapse-header:focus {
+  background-color: blue;
+}
+
+.retroFrame .ant-collapse .ant-collapse-panel {
+  background-color: beige;
+  color: black;
+  border-top: none;
+  border-radius: 0;
+  font-size: 14px;
+}
+
+.retroFrame .ant-collapse .ant-collapse-panel > .ant-collapse-body {
+  padding: 5px;
+}
+
+.retroFrame .ant-collapse .ant-collapse-panel p {
+  margin: 0 0 0.5em;
+}
+
+.retroFrame .ant-collapse .ant-collapse-panel p:last-child {
+  margin-bottom: 0;
+}
+
+/* Ported from the old site's css/indexStyles.css `.nav a` rules — the black
+   aqua-on-red nav boxes the landing page used for Info / Projects / Resume,
+   rounded off rather than the original circles.
+
+   Colors are set through antd v6's own --ant-btn-* custom properties rather
+   than by restyling .ant-btn directly. antd writes its states as
+   `.ant-btn:not(:disabled):not(.ant-btn-disabled):hover`, which outranks any
+   plain `.ant-btn.retroNavButton:hover` we could write — feeding it variables
+   lets its rules produce our colors in every state instead of fighting them.
+   The class is doubled purely for specificity: antd's per-variant rules (e.g.
+   `.ant-btn.ant-btn-variant-outlined`) set these same variables at (0,2,0), so
+   a single class would tie and lose on injection order. */
+.ant-btn.retroNavButton.retroNavButton {
+  --ant-btn-border-width: 1rem;
+  --ant-btn-border-style: solid;
+  --ant-btn-border-color: red;
+  --ant-btn-border-color-hover: beige;
+  --ant-btn-border-color-active: beige;
+
+  --ant-btn-text-color: aqua;
+  --ant-btn-text-color-hover: red;
+  --ant-btn-text-color-active: red;
+
+  --ant-btn-bg-color: black;
+  --ant-btn-bg-color-hover: black;
+  --ant-btn-bg-color-active: black;
+
+  --ant-btn-shadow: none;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-family: "Lucida Console", "Courier New", monospace;
+  font-size: 1.5rem;
+  line-height: 1.3;
+  text-decoration: none;
+  text-align: center;
+  white-space: normal;
+
+  /* Fixed width and height so all three stay identical no matter how many
+     lines the label wraps to; flex centering handles the rest. */
+  width: var(--retro-nav-width, 360px);
+  height: var(--retro-nav-height, 120px);
+  flex: none;
+  padding: 12px 24px;
+
+  border-radius: 16px;
+}

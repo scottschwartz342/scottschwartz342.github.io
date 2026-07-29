@@ -4,16 +4,16 @@ import horse from './assets/horse.jpg'
 import { Col, Flex, Image, Row, Typography } from 'antd';
 import CustomCarousel from './components/CutomCarousel';
 
-const { Title } = Typography;
+const { Text } = Typography;
 
 const Name = () => (
   <Flex vertical gap={16}>
-    <Title level={1} style={{ color: '#ffffff' }}>
+    <Text style={{ color: '#ffffff', fontSize: '4em', fontFamily: "'Times New Roman', serif" }}>
       Scott
-    </Title>
-    <Title level={1} style={{ color: '#ffffff' }}>
+    </Text>
+    <Text style={{ color: '#ffffff', fontSize: '4em', fontFamily: "'Times New Roman', serif" }}>
       Schwartz
-    </Title>
+    </Text>
   </Flex>
 );
 
@@ -29,10 +29,10 @@ const App = () => {
           preview={false}
         />
       </Col>
-      <Col flex="none" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: '16px', marginRight: '16px', border: '1px solid red' }}>
+      <Col flex="none" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: '16px', marginRight: '16px' }}>
         <Name />
       </Col>
-      <Col flex="auto" style={{ border: '1px solid green',  width:"10px" }}>
+      <Col flex="auto" style={{ width:"10px" }}>
         <CustomCarousel />
       </Col>
     </Row>
