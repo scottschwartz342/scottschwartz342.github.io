@@ -1,23 +1,28 @@
-/* Surfaces for the panels and the nav buttons. The old design floated
-   translucent "glass" over an animated ink shader; that backdrop is gone, so the
-   surfaces are now solid and lifted just enough to separate cleanly from the
-   static page behind them. Defined once because the panels and the buttons have
-   to agree — two surfaces at different shades over the same background reads as a
-   mistake rather than a choice. Tune the look here, not per-component. */
-:root {
-  --surface: #17171b;
-  --surface-hover: #1f1f26;
-  --surface-active: #26262e;
+/* Surfaces for the panels and the nav buttons. Dark grey glass over the photo:
+   a smoky dark tint at a low alpha, so the dog reads clearly through the content
+   rather than being tinted out. Defined once because the panels and the buttons
+   have to agree — two surfaces at different alphas over the same photo reads as a
+   mistake rather than a choice. Tune the effect here, not per-component.
 
-  --surface-border: rgba(255, 255, 255, 0.10);
-  --surface-border-strong: rgba(255, 255, 255, 0.22);
+   The tint is dark so antd's light body text holds contrast even where a bright
+   region of the photo shows through; the blur stops the busy image from dragging
+   the eye through the text. Pushing the alpha lower makes it glassier but starts
+   to strand the text over the photo's brightest spots — this is about as sheer
+   as the dark tint can go and still keep white text readable. */
+:root {
+  --glass-bg: rgba(28, 30, 36, 0.55);
+  --glass-bg-hover: rgba(40, 42, 50, 0.62);
+  --glass-bg-active: rgba(20, 22, 28, 0.68);
+  --glass-blur: blur(16px);
+
+  --glass-border: rgba(255, 255, 255, 0.14);
+  --glass-border-strong: rgba(255, 255, 255, 0.32);
 
   /* Shared by the nav buttons and the rule under the wordmark. The alignment
      between them is the point, so it can't be two numbers that happen to agree. */
   --nav-width: min(22rem, 80vw);
 
-  /* The interaction accent — a light grey rather than a hue, keeping the page
-     neutral so the only saturated things on screen are the links. */
+  /* Button text lightens toward white on hover/active. */
   --accent: rgba(255, 255, 255, 0.92);
 }
 
@@ -27,31 +32,32 @@
   z-index: 1;
 }
 
-/* The carousel dots overlay the slides, so they want a light value whatever the
-   slide is. antd hardcodes the inactive track at 0.2 opacity, which is nearly
-   invisible on this dark page, so lift it. Doubled for specificity: antd writes
+/* The carousel dots overlay the photo, so they want a light value — set by the
+   Carousel colorBgContainer override in main.tsx. This is the half that can't
+   be: antd hardcodes the inactive track at 0.2 opacity, which is nearly
+   invisible, so lift it. The dark halo separates a light dot from the bright
+   regions of the photo it may sit over. Doubled for specificity: antd writes
    `.ant-carousel .slick-dots li button` at (0,2,2), so a single class would tie
    and lose. */
 .carouselRail.carouselRail .slick-dots li button {
-  opacity: 0.4;
+  opacity: 0.5;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.85);
 }
 
 .carouselRail.carouselRail .slick-dots li button:hover {
-  opacity: 0.85;
+  opacity: 0.9;
 }
 
-/* Links. antd's dark colorLink (#1668dc) sits under the 4.5:1 AA floor on this
-   surface; #65a9f3 holds ~7:1, so it's set here rather than via the colorLink
-   token (a seed the dark algorithm re-derives into a different, darker value).
-   Doubled for specificity: antd writes a.ant-typography at (0,1,1). */
+/* Links. The dark glass wants a light blue; #65a9f3 holds AA on it even where a
+   bright region of the photo shows through and lifts the surface. Doubled for
+   specificity against a.ant-typography. */
 .panel.panel a {
   color: #65a9f3;
   text-decoration: none;
 }
 
 /* Underline on interaction only, so the resting look is unaffected but keyboard
-   users and anyone who doesn't separate the two blues still get a non-color
-   signal. */
+   users and anyone who doesn't separate the blues still get a non-color signal. */
 .panel.panel a:hover,
 .panel.panel a:focus-visible {
   color: #8dc5f8;
@@ -75,32 +81,33 @@
   overflow-y: auto;
   padding: 32px 40px;
 
-  background-color: var(--surface);
-  border: 1px solid var(--surface-border);
+  background-color: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
   border-radius: 12px;
-  /* A soft drop shadow does the lifting the shader's motion used to do —
-     enough to seat the card above the page without looking heavy. */
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
 }
 
-/* The landing name, set to match the panel headings. Deliberately declares no
-   font properties — matching them means inheriting antd's h1 rather than
-   restating its size, weight and family here, which would then quietly drift
-   apart the first time a theme token changes. Only the margin and centering
-   differ, because this one sits on bare background instead of in a card.
+/* The landing name. Unlike the panel headings — which are antd's dark text on a
+   light card — this one sits directly on the bare photo, whose bright and dark
+   regions would each swallow a fixed dark or light fill. So it's white with a
+   dark shadow: the fill carries the bright areas, the shadow the dark ones.
 
-   Doubled for specificity: antd's h1.ant-typography sets the margin at (0,1,1). */
+   Font properties are left to antd's inherited h1 so size, weight and family
+   don't drift from the headings when a token changes. Doubled for specificity:
+   antd's h1.ant-typography sets the margin (and, under the light algorithm, the
+   dark color) at (0,1,1). */
 .nameplate.nameplate {
   margin: 0;
   text-align: center;
   letter-spacing: 0.01em;
-  /* Sits on the bare photo background rather than in a card, so it carries a
-     shadow to stay legible wherever the image happens to be bright. */
-  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.85);
+  color: #ffffff;
+  text-shadow: 0 1px 16px rgba(0, 0, 0, 0.9);
 }
 
 /* Hairline tying the name to the button stack — same width, fading at both ends
-   so it reads as a seam rather than a border. */
+   so it reads as a seam rather than a border. Light like the name, since it too
+   sits on the bare photo rather than on a card. */
 .nameplate.nameplate::after {
   content: '';
   display: block;
@@ -110,13 +117,13 @@
   background: linear-gradient(
     90deg,
     transparent,
-    var(--surface-border-strong) 25%,
-    var(--surface-border-strong) 75%,
+    rgba(255, 255, 255, 0.55) 25%,
+    rgba(255, 255, 255, 0.55) 75%,
     transparent
   );
 }
 
-/* The same surface as the panels, driven through antd's own --ant-btn-*
+/* The same grey glass as the panels, driven through antd's own --ant-btn-*
    variables rather than by restyling .ant-btn directly. antd writes its states
    as `.ant-btn:not(:disabled):not(.ant-btn-disabled):hover`, which outranks any
    plain `.navButton:hover` — so setting the variables lets antd's own rules
@@ -126,19 +133,24 @@
    (`.ant-btn.ant-btn-variant-outlined`) set these same variables at (0,2,0), so
    a single class would tie and lose on stylesheet order. */
 .navButton.navButton {
-  --ant-btn-bg-color: var(--surface);
-  --ant-btn-bg-color-hover: var(--surface-hover);
-  --ant-btn-bg-color-active: var(--surface-active);
+  --ant-btn-bg-color: var(--glass-bg);
+  --ant-btn-bg-color-hover: var(--glass-bg-hover);
+  --ant-btn-bg-color-active: var(--glass-bg-active);
 
-  --ant-btn-border-color: var(--surface-border);
-  --ant-btn-border-color-hover: var(--surface-border-strong);
-  --ant-btn-border-color-active: var(--surface-border-strong);
+  --ant-btn-border-color: var(--glass-border);
+  --ant-btn-border-color-hover: var(--glass-border-strong);
+  --ant-btn-border-color-active: var(--glass-border-strong);
 
-  --ant-btn-text-color: var(--ant-color-text, rgba(255, 255, 255, 0.88));
+  --ant-btn-text-color: var(--ant-color-text, rgba(0, 0, 0, 0.88));
   --ant-btn-text-color-hover: var(--accent);
   --ant-btn-text-color-active: var(--accent);
 
   --ant-btn-shadow: none;
+
+  /* backdrop-filter has no antd variable — it isn't a color, so it has to be set
+     on the element itself. It only does anything because the backgrounds above
+     are translucent. */
+  backdrop-filter: var(--glass-blur);
 
   /* Fixed width so the three buttons stay identical rather than sizing to their
      labels. */
