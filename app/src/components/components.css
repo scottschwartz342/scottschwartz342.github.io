@@ -3,6 +3,46 @@
    instead of drifting out of step with the components around it. The fallbacks
    are the dark palette's values, used only if a token is ever renamed. */
 
+/* The glass treatment, defined once because the panels and the nav buttons have
+   to agree — the alpha is what lets the ink shader read through, and two
+   surfaces sitting at different alphas over the same moving background looks
+   like a mistake rather than a choice. Tune the effect here, not per-component. */
+:root {
+  --glass-bg: rgba(20, 20, 20, 0.72);
+  --glass-bg-hover: rgba(38, 38, 44, 0.78);
+  --glass-bg-active: rgba(48, 48, 56, 0.84);
+  --glass-blur: blur(16px);
+}
+
+/* The shader canvas. Fixed rather than absolute so it stays put while a panel
+   scrolls, and inert to pointer events so the carousel's wheel handling and the
+   panels' own scrolling still receive every gesture. */
+.shaderBackground {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Sits behind the canvas permanently rather than being swapped in, so it covers
+   both the moment before the first frame and hardware with no WebGL2 at all.
+   Approximates the aurora's resting state, so neither case shows bare black. */
+.shaderBackground.isStatic {
+  background: radial-gradient(110% 65% at 50% 100%, #170c30 0%, #0c0620 40%, #000000 72%);
+}
+
+.shaderCanvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Everything the app renders sits in its own stacking context above the canvas. */
+.appContent {
+  position: relative;
+  z-index: 1;
+}
+
 /* The frame the Info / Projects / Resume slides sit in. Each one sets its own
    overflow because the carousel checks for a scrollable ancestor under the
    cursor before it will change slides — see scrollableUnderCursor in
@@ -13,14 +53,48 @@
   overflow-y: auto;
   padding: 32px 40px;
 
-  background-color: var(--ant-color-bg-container, #141414);
+  /* Translucent instead of antd's opaque colorBgContainer, which would hide the
+     shader entirely behind each panel. The alpha is high enough to keep body
+     text at full contrast; the blur stops moving colors from dragging the eye
+     through the text. */
+  background-color: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
   border: 1px solid var(--ant-color-border-secondary, #303030);
   border-radius: var(--ant-border-radius-lg, 8px);
 }
 
-/* Fixed width so the three landing-page buttons stay identical rather than
-   sizing to their labels. */
+/* The same glass as the panels, but driven through antd's own --ant-btn-*
+   variables rather than by restyling .ant-btn directly. antd writes its states
+   as `.ant-btn:not(:disabled):not(.ant-btn-disabled):hover` (see
+   button/style/variant.js), which outranks any plain `.navButton:hover` — so
+   setting the variables lets antd's own rules produce these colors in every
+   state instead of fighting them.
+
+   The class is doubled purely for specificity: antd's per-variant rules
+   (`.ant-btn.ant-btn-variant-outlined`) set these same variables at (0,2,0), so
+   a single class would tie and lose on stylesheet order. */
 .navButton.navButton {
+  --ant-btn-bg-color: var(--glass-bg);
+  --ant-btn-bg-color-hover: var(--glass-bg-hover);
+  --ant-btn-bg-color-active: var(--glass-bg-active);
+
+  --ant-btn-border-color: var(--ant-color-border-secondary, #303030);
+  --ant-btn-border-color-hover: var(--ant-color-primary, #1677ff);
+  --ant-btn-border-color-active: var(--ant-color-primary, #1677ff);
+
+  --ant-btn-text-color: var(--ant-color-text, rgba(255, 255, 255, 0.88));
+  --ant-btn-text-color-hover: var(--ant-color-primary, #1677ff);
+  --ant-btn-text-color-active: var(--ant-color-primary, #1677ff);
+
+  --ant-btn-shadow: none;
+
+  /* backdrop-filter has no antd variable — it isn't a color, so it has to be
+     set on the element itself. It only does anything because the backgrounds
+     above are translucent. */
+  backdrop-filter: var(--glass-blur);
+
+  /* Fixed width so the three buttons stay identical rather than sizing to their
+     labels. */
   width: min(22rem, 80vw);
   height: 3.25rem;
   font-size: 1rem;

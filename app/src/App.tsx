@@ -3,6 +3,8 @@ import horse from './assets/horse.jpg'
 
 import { Col, Flex, Image, Row, Typography } from 'antd';
 import CustomCarousel from './components/CutomCarousel';
+import ShaderBackground from './components/ShaderBackground';
+import './components/components.css';
 
 const { Text } = Typography;
 
@@ -19,7 +21,9 @@ const Name = () => (
 
 const App = () => {
   return (
-    <Row>
+    <>
+    <ShaderBackground />
+    <Row className="appContent">
       <Col flex="none">
         <Image
           alt="basic"
@@ -36,6 +40,7 @@ const App = () => {
         <CustomCarousel />
       </Col>
     </Row>
+    </>
   );
 }
 

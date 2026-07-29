@@ -12,8 +12,7 @@
   "dependencies": {
     "antd": "^6.5.2",
     "react": "^19.2.7",
-    "react-dom": "^19.2.7",
-    "shaders": "^3.0.444"
+    "react-dom": "^19.2.7"
   },
   "devDependencies": {
     "@babel/core": "^7.29.7",
