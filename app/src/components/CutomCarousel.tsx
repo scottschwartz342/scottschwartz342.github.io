@@ -101,7 +101,7 @@ const CustomCarousel = () => {
 
     return (
       <div onWheel={onWheel} style={{ height: '100vh' }}>
-        <Carousel ref={carouselRef} dotPlacement={'end'} style={{ height: '100vh', width: '100%' }} afterChange={onChange} arrows>
+        <Carousel ref={carouselRef} className="carouselRail" dotPlacement={'end'} style={{ height: '100vh', width: '100%' }} afterChange={onChange} arrows>
           <div>
             <Flex style={slideStyle}>
               <Options onNavigate={goToSlide} />

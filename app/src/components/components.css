@@ -47,6 +47,62 @@
   z-index: 1;
 }
 
+/* The dots' colour is fixed by the Carousel token override in main.tsx; this is
+   the half that can't be, because antd hardcodes the inactive track's opacity at
+   0.2 rather than exposing it. At 0.2 white reads as rgb(51,51,51) — enough
+   against a photo slide, nearly nothing against a near-black page.
+
+   The shadow is for the dots' position rather than their colour: they sit at the
+   far right edge, which is exactly where a bright stroke of ink tends to be, and
+   white-on-bright needs an edge to stay separate.
+
+   Doubled for specificity: antd writes `.ant-carousel .slick-dots li button` at
+   (0,2,2), so a single class would tie and lose. */
+.carouselRail.carouselRail .slick-dots li button {
+  opacity: 0.4;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+}
+
+.carouselRail.carouselRail .slick-dots li button:hover {
+  opacity: 0.85;
+}
+
+/* Links are lightened, because a translucent panel over a moving shader is a
+   harder background than antd's colorLink is built for. Its dark default
+   (#1668dc) reaches only 3.7:1 against the panel at rest — already under the
+   4.5:1 AA floor — and as bright ink passes behind, the backdrop lifts the panel
+   toward rgb(86,56,26) and the link collapses to about 2:1. Two steps up antd's
+   own blue ramp holds ~7.8:1 at rest and ~4.3:1 at the worst moment.
+
+   Set here rather than via the colorLink token because that token is a seed:
+   the dark algorithm re-derives it, so passing this hex yields a different,
+   darker colour. This is the only way to land on an exact value.
+
+   Doubled for specificity: antd writes a.ant-typography at (0,1,1), which a
+   plain `.panel a` merely ties and then loses to on injection order. */
+.panel.panel a {
+  color: #65a9f3;
+  text-decoration: none;
+}
+
+/* Underline on interaction only. The colour carries the resting state, but it
+   sits at 1.9:1 against the body text beside it, so hue alone is a weak signal
+   for anyone who doesn't separate those two blues — and a keyboard user needs
+   something that isn't a cursor position. Both are invisible until acted on, so
+   the resting look is unaffected. */
+.panel.panel a:hover,
+.panel.panel a:focus-visible {
+  color: #8dc5f8;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  /* Clears the descenders so the rule doesn't slice through g/p/y. */
+  text-underline-offset: 0.18em;
+}
+
+.panel.panel a:active {
+  color: #3c89e8;
+}
+
 /* The frame the Info / Projects / Resume slides sit in. Each one sets its own
    overflow because the carousel checks for a scrollable ancestor under the
    cursor before it will change slides — see scrollableUnderCursor in
