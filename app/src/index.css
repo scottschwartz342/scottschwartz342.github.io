@@ -1,11 +1,25 @@
-/* The dark algorithm in main.tsx restyles antd's own components but never
-   touches the page itself, so html/body would stay white behind them. These two
-   values are what darkAlgorithm derives everything else from: #000 as the base
-   background, rgba(255,255,255,0.88) as body text. Setting them here keeps any
-   plain markup that isn't an antd component in step with the theme. */
+/* The page background. The dark algorithm in main.tsx restyles antd's own
+   components but never paints the page itself, so this is where the backdrop the
+   panels sit on is defined.
+
+   A full-bleed photo, covered and centered, fixed to the viewport so it stays
+   put while a panel scrolls. url() is left relative to this file so Vite emits
+   the image into the build and rewrites it to the hashed asset URL — a bare
+   src/assets path wouldn't be copied verbatim and would 404.
+
+   background-color is the fallback shown before the image loads. */
 html, body, #root {
   margin: 0;
   padding: 0;
-  background-color: #000000;
+  min-height: 100%;
+}
+
+body {
   color: rgba(255, 255, 255, 0.88);
+  background-color: #0a0a0c;
+  background-image: url('./assets/pepsiDog.webp');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
 }
