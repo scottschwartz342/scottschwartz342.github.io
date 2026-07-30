@@ -30,21 +30,21 @@ const Info = () => (
 
     <Title level={3} style={flush}>Who am I?</Title>
     <Paragraph style={flush}>
-      I am a recent graduate from the University of Pittsburgh with a Bachelor of
-      Science in Computer Science. Originally from Long Island, New York, I have
-      been passionate about computer science and technology for as long as I can
-      remember. My academic journey has been driven by a strong desire to expand
-      my skills and knowledge in the field.
+      Hello! My name is Scott Schwartz. I grew up on Long Island, studied computer science at the
+      University of Pittsburgh, and I've spent the past year in Philadelphia
+      working as a software engineer at WebstaurantStore.
     </Paragraph>
     <Paragraph style={flush}>
-      Throughout my studies, I have developed a strong foundation in programming
-      and algorithms. I am eager to apply my learning in practical settings and
-      contribute to innovative work. I seek to continue to grow as a computer
-      scientist and utilize my skills within the tech industry/ research.
+      Growing up, I always loved tinkering. Whether it was building legos, playing with the boxes
+      my dad would bring home from shopping at BJ's, or taking apart broken electronics, I am the happiest when I can let my mind be curious and creative.
     </Paragraph>
     <Paragraph style={flush}>
-      I am excited about opportunities to collaborate and explore the exciting
-      world of technology and computers!
+      In college my favorite classes were the algorithm based ones. There was someting so satisfying about bridging the gap between a problem's input and output. 
+      At work, I love the feeling of knowing that my contributions help people's day-by-day.
+    </Paragraph>
+    <Paragraph style={flush}>
+      I'm always open to new opportunities, so if you think we'd be a good fit,
+      please feel free to reach out. My email and links are right above!
     </Paragraph>
   </Flex>
 );

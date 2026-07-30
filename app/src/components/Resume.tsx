@@ -14,7 +14,7 @@ const flush: React.CSSProperties = { margin: 0 };
 const Resume = () => (
   <Flex vertical gap={16} className="panel">
     <Title level={1} style={flush}>Resume:</Title>
-    <Paragraph style={flush}>Updated as of: 06/04/2025</Paragraph>
+    <Paragraph style={flush}>Updated as of: 07/29/2026</Paragraph>
     <Link href={resumeUrl} download="ScottSchwartzResume.pdf">
       Click this to download resume
     </Link>

@@ -125,9 +125,7 @@ const Projects = () => (
   <Flex vertical gap={16} className="panel">
     <Title level={1} style={flush}>Projects:</Title>
     <Paragraph style={flush}>
-      Updated as of: 5/11/2025
-      <br />
-      Does not include all school courses/projects
+      (Does not include all school courses/projects)
     </Paragraph>
 
     <Title level={3} style={flush}>Dummy Wordle</Title>
