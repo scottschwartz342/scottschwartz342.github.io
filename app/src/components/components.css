@@ -32,20 +32,150 @@
   z-index: 1;
 }
 
-/* The carousel dots overlay the photo, so they want a light value — set by the
-   Carousel colorBgContainer override in main.tsx. This is the half that can't
-   be: antd hardcodes the inactive track at 0.2 opacity, which is nearly
-   invisible, so lift it. The dark halo separates a light dot from the bright
-   regions of the photo it may sit over. Doubled for specificity: antd writes
-   `.ant-carousel .slick-dots li button` at (0,2,2), so a single class would tie
-   and lose. */
-.carouselRail.carouselRail .slick-dots li button {
-  opacity: 0.5;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.85);
+/* The slide rail. A real scroll container with snap points rather than a
+   JS-driven carousel, so the browser's own scrolling — trackpad momentum
+   included — does the work; see the comment in CutomCarousel.tsx.
+
+   `mandatory` because every slide is exactly one rail tall, so there is never a
+   position between two of them worth resting at. dvh rather than vh so the rail
+   matches the viewport actually left over once mobile browser chrome is showing,
+   instead of hiding a slice of each slide behind it. */
+.rail {
+  height: 100dvh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+
+  /* The dots are the position indicator; a scrollbar next to them would say the
+     same thing twice, and on a 4-slide rail it says it in a less useful way. */
+  scrollbar-width: none;
 }
 
-.carouselRail.carouselRail .slick-dots li button:hover {
-  opacity: 0.9;
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+/* Honour a reduced-motion preference for the dots and arrows — a full-viewport
+   slide animating past is a lot of motion. Flicks are unaffected either way:
+   that scrolling is direct manipulation, not animation. */
+@media (prefers-reduced-motion: reduce) {
+  .rail {
+    scroll-behavior: auto;
+  }
+}
+
+.railSlide {
+  height: 100dvh;
+  scroll-snap-align: start;
+
+  /* Slides don't size to their content — they're viewport-sized frames that
+     center it. */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Dots and arrows sit above the rail rather than inside it, so they hold still
+   while it scrolls under them. */
+.railDots {
+  position: fixed;
+  top: 50%;
+  right: 24px;
+  transform: translateY(-50%);
+  z-index: 2;
+
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Light values: these overlay the photo, not a themed surface. The dark halo is
+   what separates a light dot from the bright regions of the photo it may sit
+   over. */
+.railDot {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.85);
+  cursor: pointer;
+  transition: background 150ms ease, transform 150ms ease;
+}
+
+.railDot:hover {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.railDotActive {
+  background: #ffffff;
+  transform: scale(1.35);
+}
+
+/* Centered on the rail, not on the panels, so the pair reads as one axis. */
+.railArrow {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 50%;
+
+  background-color: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  color: var(--accent);
+  cursor: pointer;
+  transition: background-color 150ms ease, border-color 150ms ease, opacity 150ms ease;
+}
+
+.railArrow:hover:not(:disabled) {
+  background-color: var(--glass-bg-hover);
+  border-color: var(--glass-border-strong);
+}
+
+.railArrow:active:not(:disabled) {
+  background-color: var(--glass-bg-active);
+}
+
+/* Kept in the layout rather than hidden at the ends, so the other arrow doesn't
+   jump position on the first and last slides. */
+.railArrow:disabled {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.railArrowUp {
+  top: 24px;
+}
+
+.railArrowDown {
+  bottom: 24px;
+}
+
+.railArrow svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* The dots would collide with a panel once the viewport is about as narrow as
+   the panel is wide, so drop to arrows only. */
+@media (max-width: 34rem) {
+  .railDots {
+    display: none;
+  }
 }
 
 /* Links. The dark glass wants a light blue; #65a9f3 holds AA on it even where a
@@ -71,14 +201,22 @@
   color: #3c89e8;
 }
 
-/* The frame the Info / Projects / Resume slides sit in. Each one sets its own
-   overflow because the carousel checks for a scrollable ancestor under the
-   cursor before it will change slides — see scrollableUnderCursor in
-   CutomCarousel.tsx. */
+/* The frame the Info / Projects / Resume slides sit in.
+
+   A panel taller than its frame scrolls itself, and `overscroll-behavior:
+   contain` is what keeps that from becoming a slide change: without it, reaching
+   the bottom of a panel chains the rest of the gesture up to the rail and the
+   slide is yanked away mid-read. With it, the gesture stops at the panel's edge
+   and moving on takes a fresh one — which is what the browser already does for
+   nested scrollers everywhere else.
+
+   dvh to match the rail's slide height, so the panel can't outgrow the slide
+   holding it when mobile browser chrome is showing. */
 .panel {
   width: min(52rem, 82vw);
-  max-height: 82vh;
+  max-height: 82dvh;
   overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 32px 40px;
 
   background-color: var(--glass-bg);

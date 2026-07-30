@@ -1,12 +1,11 @@
-import { useRef } from 'react';
-import { Carousel, Flex } from 'antd';
-import type { CarouselRef } from 'antd/es/carousel';
+import { useEffect, useRef, useState } from 'react';
 
 import Info from './Info';
 import { Option } from './Option';
 import Options from './Options';
 import Projects from './Projects';
 import Resume from './Resume';
+import './components.css';
 
 /* Slide order below has to match these indices — the Options buttons name a
    target rather than a number so the mapping lives in one place. Record<Option,
@@ -18,112 +17,135 @@ const SLIDE_INDEX: Record<Option, number> = {
   [Option.Resume]: 3,
 };
 
-/* Trackpads emit a long tail of momentum events per gesture, so one flick would
-   otherwise skate through every slide. Ignore wheel input for this long after
-   acting on it. */
-const WHEEL_COOLDOWN_MS = 600;
+/* Labels for the dots and for the slides themselves, so the rail is navigable
+   by something other than sight. Length defines the slide count. */
+const SLIDE_LABELS = [
+  'Home',
+  'Contact information and about me',
+  'Projects',
+  'Resume',
+];
 
-/* True when something between `start` and `boundary` can still scroll in the
-   wheel's direction — the Info/Projects frames set overflowY themselves, and
-   they should consume the gesture until they bottom out rather than having the
-   carousel yank the slide away mid-read. */
-const scrollableUnderCursor = (
-  start: HTMLElement | null,
-  delta: number,
-  boundary: HTMLElement,
-) => {
-  for (let node = start; node && node !== boundary; node = node.parentElement) {
-    const { overflowY } = window.getComputedStyle(node);
-    const scrolls = overflowY === 'auto' || overflowY === 'scroll';
+/* Share of the rail a slide has to cover to count as the current one. Anything
+   above half means only one slide can ever qualify, so the dots can't flicker
+   between two of them mid-scroll. */
+const ACTIVE_RATIO = 0.6;
 
-    if (scrolls && node.scrollHeight > node.clientHeight) {
-      const atTop = node.scrollTop <= 0;
-      const atBottom = node.scrollTop + node.clientHeight >= node.scrollHeight - 1;
+const Chevron = ({ pointing }: { pointing: 'up' | 'down' }) => (
+  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <path d={pointing === 'up' ? 'M5 15l7-7 7 7' : 'M5 9l7 7 7-7'} />
+  </svg>
+);
 
-      if (delta > 0 ? !atBottom : !atTop) {
-        return true;
-      }
-    }
-  }
-
-  return false;
-};
-
+/* Scrolling between slides is the browser's job here, not ours: the rail is a
+   real scroll container and CSS scroll-snap does the snapping. That's the whole
+   design. Trackpad momentum, rubber-banding and "was that flick hard enough"
+   are exactly what a hand-written wheel handler gets wrong and what the
+   platform's own scrolling gets right, so there is deliberately no wheel,
+   touch or keyboard handling below — only the dots and arrows, which drive the
+   same native scrolling through scrollIntoView. */
 const CustomCarousel = () => {
-    const carouselRef = useRef<CarouselRef>(null);
-    const wheelLockedRef = useRef(false);
+    const railRef = useRef<HTMLDivElement>(null);
+    const slidesRef = useRef<(HTMLElement | null)[]>([]);
+    const [activeSlide, setActiveSlide] = useState(0);
 
-    const onChange = (currentSlide: number) => {
-        console.log(currentSlide);
+    /* Which slide is showing is a fact about scroll position, so it's observed
+       rather than tracked — the dots stay right whether the move came from a
+       flick, a dot, an arrow or the keyboard. */
+    useEffect(() => {
+        const rail = railRef.current;
+
+        if (!rail) {
+            return;
+        }
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                for (const entry of entries) {
+                    if (entry.isIntersecting) {
+                        setActiveSlide(slidesRef.current.indexOf(entry.target as HTMLElement));
+                    }
+                }
+            },
+            { root: rail, threshold: ACTIVE_RATIO },
+        );
+
+        for (const slide of slidesRef.current) {
+            if (slide) {
+                observer.observe(slide);
+            }
+        }
+
+        return () => observer.disconnect();
+    }, []);
+
+    const goTo = (index: number) => {
+        slidesRef.current[index]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
 
     const goToSlide = (target: Option) => {
-        carouselRef.current?.goTo(SLIDE_INDEX[target]);
+        goTo(SLIDE_INDEX[target]);
     };
 
-    const onWheel = (event: React.WheelEvent<HTMLDivElement>) => {
-        // Horizontal trackpad swipes should move the carousel too, so take
-        // whichever axis the gesture leaned on.
-        const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY)
-          ? event.deltaX
-          : event.deltaY;
+    const slides = [
+      <Options onNavigate={goToSlide} />,
+      <Info />,
+      <Projects />,
+      <Resume />,
+    ];
 
-        if (delta === 0) {
-            return;
-        }
-
-        if (scrollableUnderCursor(event.target as HTMLElement, delta, event.currentTarget)) {
-            return;
-        }
-
-        if (wheelLockedRef.current) {
-            return;
-        }
-
-        wheelLockedRef.current = true;
-        window.setTimeout(() => {
-            wheelLockedRef.current = false;
-        }, WHEEL_COOLDOWN_MS);
-
-        if (delta > 0) {
-            carouselRef.current?.next();
-        } else {
-            carouselRef.current?.prev();
-        }
-    };
-
-    const slideStyle: React.CSSProperties = {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      height: '100vh',
-    };
+    const lastSlide = SLIDE_LABELS.length - 1;
 
     return (
-      <div onWheel={onWheel} style={{ height: '100vh' }}>
-        <Carousel ref={carouselRef} className="carouselRail" dotPlacement={'end'} style={{ height: '100vh', width: '100%' }} afterChange={onChange} arrows>
-          <div>
-            <Flex style={slideStyle}>
-              <Options onNavigate={goToSlide} />
-            </Flex>
-          </div>
-          <div>
-            <Flex style={slideStyle}>
-              <Info />
-            </Flex>
-          </div>
-          <div>
-            <Flex style={slideStyle}>
-              <Projects />
-            </Flex>
-          </div>
-          <div>
-            <Flex style={slideStyle}>
-              <Resume />
-            </Flex>
-          </div>
-        </Carousel>
-      </div>
+      <>
+        <div className="rail" ref={railRef} tabIndex={0} role="region" aria-label="Sections">
+          {slides.map((content, index) => (
+            <section
+              key={SLIDE_LABELS[index]}
+              className="railSlide"
+              aria-label={SLIDE_LABELS[index]}
+              ref={(node) => {
+                slidesRef.current[index] = node;
+              }}
+            >
+              {content}
+            </section>
+          ))}
+        </div>
+
+        <button
+          type="button"
+          className="railArrow railArrowUp"
+          onClick={() => goTo(activeSlide - 1)}
+          disabled={activeSlide === 0}
+          aria-label="Previous section"
+        >
+          <Chevron pointing="up" />
+        </button>
+
+        <button
+          type="button"
+          className="railArrow railArrowDown"
+          onClick={() => goTo(activeSlide + 1)}
+          disabled={activeSlide === lastSlide}
+          aria-label="Next section"
+        >
+          <Chevron pointing="down" />
+        </button>
+
+        <nav className="railDots" aria-label="Sections">
+          {SLIDE_LABELS.map((label, index) => (
+            <button
+              key={label}
+              type="button"
+              className={index === activeSlide ? 'railDot railDotActive' : 'railDot'}
+              onClick={() => goTo(index)}
+              aria-label={label}
+              aria-current={index === activeSlide}
+            />
+          ))}
+        </nav>
+      </>
   );
 };
 
